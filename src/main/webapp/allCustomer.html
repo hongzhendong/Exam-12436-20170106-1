@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css"/>
+</head>
+<body>
+<div class="container">
+    <ol class="breadcrumb" style="margin-bottom:0px;">
+        <li><a href="index.html" target="_parent">Home</a></li>
+        <li class="active">all Customer</li>
+    </ol>
+    <div id="toolbar" class="btn-group">
+        <button id="add" type="button" class="btn btn-default" data-toggle="modal" data-target="#editDiv">
+            <i class="glyphicon glyphicon-plus"></i>
+        </button>
+        <button id="delete" type="button" class="btn btn-default" disabled>
+            <i class="glyphicon glyphicon-trash"></i>
+        </button>
+    </div>
+    <table id="table" data-toolbar="#toolbar">
+    </table>
+</div>
+<!-- 模态框 -->
+<div id="editDiv" class="modal fade" aria-hidden="true" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add Customer</h4>
+            </div>
+            <form id="formEdit" role="form"><input id="inputId" type="hidden" name="CustomerId" value="0">
+            <div class="modal-body">
+                <div class="form-group ">
+                    <label for="inputFirstName">First Name</label>
+                    <input name="firstName" type="text" class="form-control" id="inputFirstName" placeholder="Enter first Name">
+                    <div id="errorFirstName" class="alert alert-danger shake animated" role="alert" style="display:none;height:40px;">Enter your first name</div>
+                </div>
+                <div class="form-group">
+                    <label for="inputLastName">Last Name</label>
+                    <input name="lastName" type="text" id="inputLastName" rows="3" class="form-control" placeholder="Enter last Name" />
+                    <div id="errorLastName" class="alert alert-danger shake animated" role="alert" style="display:none;height:40px;">Enter your last name</div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail">Email</label>
+                    <input name="email" type="text" id="inputEmail" rows="3" class="form-control" placeholder="Enter e-mail" />
+                </div>
+                <div class="form-group">
+                    <label for="selectCountry">Country</label>
+                    <select name="country" id="selectCountry" class="form-control">
+                    
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="selectCity">City</label>
+                    <select name="cityId" id="selectCity" class="form-control">
+                    
+                    </select>
+                </div>
+                <div class="form-group ">
+                    <label for="inputAddress">Address</label>
+                    <input name="address" type="text" class="form-control" id="inputAddress" placeholder="Enter Address">
+                    <div id="errorAddress" class="alert alert-danger shake animated" role="alert" style="display:none;height:40px;">Enter your address</div>
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress2">Address2</label>
+                    <input name="address2" type="text" id="inputAddress2" rows="3" class="form-control" placeholder="Enter address2" />
+                    <div id="errorAddress2" class="alert alert-danger shake animated" role="alert" style="display:none;height:40px;">Enter your address2</div>
+                </div>
+                <div class="form-group">
+                    <label for="inputDistrict">District</label>
+                    <input name="district" type="text" id="inputDistrict" rows="3" class="form-control" placeholder="Enter district" />
+                    <div id="errorDistrict" class="alert alert-danger shake animated" role="alert" style="display:none;height:40px;">Enter your district</div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPhone">Phone</label>
+                    <input name="phone" type="text" id="inputPhone" rows="3" class="form-control" placeholder="Enter phone" />
+                    <div id="errorPhone" class="alert alert-danger shake animated" role="alert" style="display:none;height:40px;">Enter your phone</div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPostalCode">Postal Code</label>
+                    <input name="postalCode" type="text" id="inputPostalCode" rows="3" class="form-control" placeholder="Enter postal code" />
+                    <div id="errorPostalCode" class="alert alert-danger shake animated" role="alert" style="display:none;height:40px;">Enter your postal code</div>
+                </div>
+	            <div class="form-group">
+	                <label for="selectStore">Store</label>
+	                <select name="storeId" id="selectStore" class="form-control">
+	                
+	                </select>
+	            </div>
+            </div>
+            <div class="modal-footer">
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button id="btnSubmit" type="button" class="btn btn-default">提交</button>
+                        <input type="reset" class="btn btn-default" value="重置">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+</div>
+</body>
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
+<script src="assets/js/jquery.hDialog.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#selectCountry").change(function(){
+        var countryId = $(this).children('option:selected').val();
+        $.ajax({
+            url:'getCity',
+            type:'post',
+            data:'countryId='+countryId,
+            dataType:'json',
+            success:function(data){
+                $("#selectCity").html("");
+                $.each(data,function(n,value){
+                    $("#selectCity").append("<option value='"+value['cityId']+"'>"+value['city']+"</option>");
+                });
+            },
+            error:function(){
+                
+            }
+        });
+    });
+	$.ajax({
+        url:'getCountry',
+        type:'post',
+        dataType:'json',
+        success:function(data){
+            var countryId;
+            $.each(data,function(n,value){
+            	if(n == 0)countryId = value['countryId'];
+                if(value['country'] == $("#country").text()){
+                    countryId = value['countryId'];
+                    $("#selectCountry").append("<option value='"+value['countryId']+"' selected='selected'>"+value['country']+"</option>");
+                }
+                else
+                    $("#selectCountry").append("<option value='"+value['countryId']+"'>"+value['country']+"</option>");
+            });
+            $.ajax({
+                url:'getCity',
+                type:'post',
+                data:'countryId='+countryId,
+                dataType:'json',
+                success:function(data){
+                    $("#selectCity").html("");
+                    $.each(data,function(n,value){
+                        if(value['city'] == $("#city").text())
+                            $("#selectCity").append("<option value='"+value['cityId']+"' selected='selected'>"+value['city']+"</option>");
+                        else
+                            $("#selectCity").append("<option value='"+value['cityId']+"'>"+value['city']+"</option>");
+                    });
+                },
+                error:function(){
+                    
+                }
+            });
+        },
+        error:function(){
+            
+        }
+    });
+	$.ajax({
+        url:'getStore',
+        type:'post',
+        dataType:'json',
+        success:function(data){
+            $("#selectStore").html("");
+            $.each(data,function(n,value){
+                    $("#selectStore").append("<option value='"+value['storeId']+"' >"+value['storeId']+" "+value['managerStaff']['firstName']+"."+value['managerStaff']['lastName']+"</option>");
+            });
+        },
+        error:function(){
+            
+        }
+    });
+    $("#btnSubmit").click(function(){
+        if($("#inputTitle").val().trim() != "" && $("#inputDescription").val().trim() != null){
+            $("#editDiv").hide();
+            var param = $("#formEdit").serialize();
+            $.ajax({
+                url:'updateFilm',
+                data:param,
+                success:function(data){
+                    if(data == 'success'){
+                        $.tooltip('OK, 操作成功！', 2500, true);
+                        $('#table').bootstrapTable('refresh', null);
+                        $("#formEdit")[0].reset();
+                    }else if(data == 'faild'){
+                        $.tooltip("操作失败！");
+                    }else{
+                        $.tooltip(data);
+                    }
+                },
+                error:function(){
+                    $.tooltip("出错了！！！");
+                }
+            });
+        }
+    })
+})
+    $("#table").bootstrapTable({
+        columns:[{
+            field:'state',
+            checkbox:'true'
+        },{
+            field:'customerId',
+            title:'Customer ID',
+            sortable:'true'
+        },{
+            field:'firstName',
+            title:'First Name',
+            sortable:'true'
+        },{
+            field:'lastName',
+            title:'Last Name',
+            sortable:'true'
+        },{
+            field:'email',
+            title:'Email',
+            sortable:'true'
+        },{
+            formatter:'operateFormatter',
+            title:'Operate',
+            events:"operateEvents"
+        }],
+        search:'true',  //启用搜索框
+        url:'showAllCustomers',    //服务器url
+        pagination:'true',  //启用分页
+        sortName:'customer_id', //默认排序字段
+        sidePagination:'server',    //服务器分页
+        pageList:[10,25,50,100,'ALL'],  //可选择的每页记录数量
+        showColumns:'true',
+        showRefresh:'true',
+        showToggle:'true',
+        clickToSelect:'true',
+        striped:'true'
+    });
+    window.operateEvents = {
+        'click .edit':function(e,value,row){
+            $("#inputId").val(row.filmId);
+            $("#inputTitle").val(row.title);
+            $("#inputDescription").val(row.description);
+            $("#selectLanguage").val(row.languageId);
+        }
+    };
+    function operateFormatter(value,row,index){
+        return [
+                '<div class="text-center">',
+                '<a class="edit" href="javascript:void(0)" title="Edit" data-toggle="modal" data-target="#editDiv">',
+                '<i class="glyphicon glyphicon-pencil"></i>',
+                '</a>',
+                '</div>'
+                ].join('');
+    }
+    var $table = $('#table'),$remove = $('#delete');
+    $(function(){
+        $table.on('check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table',function(){
+            $remove.prop('disabled',!$table.bootstrapTable('getSelections').length);
+        })
+        $remove.click(function(){
+            $.dialog('confirm','提示','确定删除？',0,function(){
+                $.closeDialog(); 
+                var ids = $.map($table.bootstrapTable('getSelections'),function(row){
+                    return row.filmId;
+                });
+                $.ajax({
+                    url:'deleteFilm',
+                    data:'ids='+ids,
+                    type:'post',
+                    success:function(data){
+                        if(data == 'success'){
+                            $.tooltip('OK, 操作成功！', 2500, true);
+                            $table.bootstrapTable('remove',{
+                                field:'filmId',
+                                values:ids
+                            });
+                            $remove.prop('disabled',true);
+                        }else if(data == 'faild'){
+                            $.tooltip('删除失败！！！');
+                        }else{
+                            $.tooltip('出现异常，无法删除！！！');
+                        }
+                    },
+                    error:function(){
+                        $.tooltip('My God, 出错啦！！！');
+                    }
+                });
+            });
+        });
+    });
+</script>
+</html>

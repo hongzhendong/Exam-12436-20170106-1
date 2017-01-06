@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="a.dao.AddressMapper" >
+  <resultMap id="BaseResultMap" type="a.pojo.Address" >
+    <id column="address_id" property="addressId" jdbcType="SMALLINT" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="address2" property="address2" jdbcType="VARCHAR" />
+    <result column="district" property="district" jdbcType="VARCHAR" />
+    <result column="city_id" property="cityId" jdbcType="SMALLINT" />
+    <result column="postal_code" property="postalCode" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="last_update" property="lastUpdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+ 
+</mapper>

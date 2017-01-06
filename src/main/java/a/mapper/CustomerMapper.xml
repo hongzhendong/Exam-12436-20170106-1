@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="a.dao.CustomerMapper">
+<resultMap id="BaseResultMap" type="a.pojo.Customer">
+    <id column="customer_id"  property="customerId" />
+    <result column="store_id"  property="storeId" />
+    <result column="first_name"  property="firstName" />
+    <result column="last_name"  property="lastName" />
+    <result column="email"  property="email" />
+    <result column="address_id"  property="addressId" />
+    <result column="active"  property="active" />
+    <result column="create_date"  property="createDate" />
+    <result column="last_update"  property="lastUpdate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    customer_id, store_id, first_name, last_name, email, address_id, active, create_date, 
+    last_update
+  </sql>
+   <select id="selectUserName"  resultMap="BaseResultMap">
+    select *
+    from customer
+    where first_name=#{userName}
+
+  </select>
+  
+    <select id="selectByOrderByLimit" resultMap="BaseResultMap" >
+  	 select * from customer 
+    <if test="search != null ">
+        where
+            customer_id like '%${search}%'
+            or first_name like '%${search}%'
+            or last_name like '%${search}%'
+            or email like '%${search}%'
+    </if>
+    <if test="orderByClause != null">
+    order by ${orderByClause}
+    </if>
+    <if test="limit != 0">
+    LIMIT #{offset},#{limit}
+    </if>
+  </select>
+
+  
+
+ 
+  
+</mapper>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="a.dao.FilmMapper" >
+  <resultMap id="BaseResultMap" type="a.pojo.Film" >
+    <id column="film_id" property="filmId" jdbcType="SMALLINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="release_year" property="releaseYear" jdbcType="DATE" />
+    <result column="language_id" property="languageId" jdbcType="TINYINT" />
+    <result column="original_language_id" property="originalLanguageId" jdbcType="TINYINT" />
+    <result column="rental_duration" property="rentalDuration" jdbcType="TINYINT" />
+    <result column="rental_rate" property="rentalRate" jdbcType="DECIMAL" />
+    <result column="length" property="length" jdbcType="SMALLINT" />
+    <result column="replacement_cost" property="replacementCost" jdbcType="DECIMAL" />
+    <result column="rating" property="rating" jdbcType="CHAR" />
+    <result column="special_features" property="specialFeatures" jdbcType="CHAR" />
+    <result column="last_update" property="lastUpdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+   <resultMap type="a.pojo.FilmResult" id="ResultMapWithFilmResult">
+  	<result column="film_id" property="filmId" jdbcType="SMALLINT" />
+  	<result column="title" property="title" jdbcType="VARCHAR"/>
+  	<result column="description" property="description" jdbcType="VARCHAR"/>
+  	<result column="language_id" property="languageId" jdbcType="VARCHAR"/>
+  	<result column="language_name" property="languageName" jdbcType="SMALLINT"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    film_id, title, release_year, language_id, original_language_id, rental_duration, 
+    rental_rate, length, replacement_cost, rating, special_features, last_update
+  </sql>
+    <select id="selectByOrderByLimit" resultMap="ResultMapWithFilmResult" >
+  	SELECT 
+	f.film_id film_id,f.title title,f.description description,f.language_id language_id,l.name language_name
+ 	FROM film f,language l 
+ 	where f.language_id = l.language_id
+ 	<if test="search != null">
+ 		and (
+ 			f.film_id like '%${search}%'
+ 			or f.title like '%${search}%'
+ 			or f.description like '%${search}%'
+ 			or l.name like '%${search}%'
+ 		)
+ 	</if>
+ 	<if test="orderByClause != null">
+ 	order by ${orderByClause}
+ 	</if>
+ 	<if test="limit != 0">
+ 	LIMIT #{offset},#{limit}
+ 	</if>
+  </select>
+  <delete id="deleteByList">
+  delete from film
+  where film_id in
+  <foreach collection="list" item="film_id" open="(" close=")" separator=",">#{film_id}</foreach>
+  </delete>
+
+   <insert id="insertSelective" >
+		INSERT INTO film
+			(title, description, language_id)
+		VALUES
+		(			
+			#{title},
+			#{description},
+			#{languageId}
+		)
+	</insert>
+<!--     <update id="updateByPrimaryKeySelective">
+        UPDATE film SET title=#{title},description=#{description},language_id=#{languageId}
+        WHERE film_id = #{filmId}
+    </update> -->
+    <update id="updateByPrimaryKeySelective">
+    UPDATE `film`
+        SET
+            title = #{title},
+            description = #{description},
+            language_id = #{languageId}
+        WHERE
+            film_id = #{filmId}
+   	
+    </update>
+
+ 
+  
+
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+    xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:tx="http://www.springframework.org/schema/tx"  
+    xmlns:p="http://www.springframework.org/schema/p"  
+    xmlns:aop="http://www.springframework.org/schema/aop"   
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd  
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
+    http://www.springframework.org/schema/tx   
+    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd   
+    http://www.springframework.org/schema/aop    
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+    
+    <!-- 自动扫描包下含有@Component,@Controller,@Service等注解的类，把这些类注册为bean -->
+    <!-- 可不再配置<context:annotation-config/>，因为该标签包含该功能 -->
+    <!-- 若只想扫描指定包下的Controller，可使用子标签<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>，同时指定use-default-filters="false" -->
+    <!-- 同理，<context:exclude-filter>指定的不扫描  -->
+    <context:component-scan base-package="a"/>
+    
+    <!-- 引入数据库配置文件 -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:db-config.properties"/>
+    </bean>
+    
+    <!-- 配置数据源 -->
+    <!-- DriverManagerDataSource只要有连接就新建一个connection，没有连接池 -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${driver}"></property>
+        <property name="url" value="${url}"></property>
+        <property name="username" value="${username}"></property>
+        <property name="password" value="${password}"></property>
+    </bean>
+    
+    <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->  
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
+        <property name="dataSource" ref="dataSource" />  
+        <!-- 自动扫描mapping.xml文件 -->  
+        <property name="mapperLocations" value="classpath:a/mapper/*.xml"></property>  
+    </bean>  
+    
+    <!-- DAO接口所在包名，Spring会自动查找其下的类 -->  
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
+        <property name="basePackage" value="a.dao" />  
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>  
+    </bean>  
+    <!-- (事务管理)transaction manager -->  
+    <bean id="transactionManager"  
+        class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+        <property name="dataSource" ref="dataSource" />  
+    </bean>  
+</beans>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="a.dao.LanguageMapper" >
+  <resultMap id="BaseResultMap" type="a.pojo.Language" >
+    <id column="language_id" property="languageId" jdbcType="TINYINT" />
+    <result column="name" property="name" jdbcType="CHAR" />
+    <result column="last_update" property="lastUpdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <select id="selectBy" resultMap="BaseResultMap" >
+    select language_id, name, last_update
+    from language
+  </select>
+ 
+</mapper>

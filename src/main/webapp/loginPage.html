@@ -1,0 +1,236 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0064)http://www.17sucai.com/preview/137615/2015-01-15/demo/index.html -->
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<title>Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<link rel='stylesheet'
+	href='http://fonts.googleapis.com/css?family=PT+Sans:400,700'>
+<link rel="stylesheet" href="assets/css/reset.css">
+<link rel="stylesheet" href="assets/css/supersized.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/animate.min.css" />
+
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="assets/js/supersized.3.2.7.min.js"></script>
+<script src="assets/js/supersized-init.js"></script>
+<script src="assets/js/scripts.js"></script>
+<META content="IE=11.0000" http-equiv="X-UA-Compatible">
+
+<META http-equiv="Content-Type" content="text/html; charset=utf-8">
+<TITLE>登录页面</TITLE>
+<SCRIPT src="assets/js/jquery-1.9.1.min.js" type="text/javascript"></SCRIPT>
+
+<STYLE>
+body {
+	background: #ebebeb;
+	font-family: "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei",
+		"\9ED1\4F53", Arial, sans-serif;
+	color: #222;
+	font-size: 12px;
+}
+
+* {
+	padding: 0px;
+	margin: 0px;
+}
+
+.top_div {
+	background: #008ead;
+	width: 100%;
+	height: 400px;
+}
+
+.ipt {
+	border: 1px solid #d3d3d3;
+	padding: 10px 10px;
+	width: 290px;
+	border-radius: 4px;
+	padding-left: 35px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow
+		ease-in-out .15s;
+	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out
+		.15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+}
+
+.ipt:focus {
+	border-color: #66afe9;
+	outline: 0;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px
+		rgba(102, 175, 233, .6);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px
+		rgba(102, 175, 233, .6)
+}
+
+.u_logo {
+	background: url("images/username.png") no-repeat;
+	padding: 10px 10px;
+	position: absolute;
+	top: 43px;
+	left: 40px;
+}
+
+.p_logo {
+	background: url("images/password.png") no-repeat;
+	padding: 10px 10px;
+	position: absolute;
+	top: 12px;
+	left: 40px;
+}
+
+a {
+	text-decoration: none;
+}
+
+.tou {
+	background: url(images/ tou.png ") no-repeat;
+	width: 97px;
+	height: 92px;
+	position: absolute;
+	top: -87px;
+	left: 140px;
+}
+
+.left_hand {
+	background: url("images/left_hand.png") no-repeat;
+	width: 32px;
+	height: 37px;
+	position: absolute;
+	top: -38px;
+	left: 150px;
+}
+
+.right_hand {
+	background: url("images/right_hand.png") no-repeat;
+	width: 32px;
+	height: 37px;
+	position: absolute;
+	top: -38px;
+	right: -64px;
+}
+
+.initial_left_hand {
+	width: 30px;
+	height: 20px;
+	position: absolute;
+	top: -12px;
+	left: 100px;
+}
+
+.initial_right_hand {
+	width: 30px;
+	height: 20px;
+	position: absolute;
+	top: -12px;
+	right: -112px;
+}
+
+.left_handing {
+	background: url("images/left-handing.png") no-repeat;
+	width: 30px;
+	height: 20px;
+	position: absolute;
+	top: -24px;
+	left: 139px;
+}
+
+.right_handinging {
+	background: url("images/right_handing.png") no-repeat;
+	width: 30px;
+	height: 20px;
+	position: absolute;
+	top: -21px;
+	left: 210px;
+}
+</STYLE>
+
+<SCRIPT type="text/javascript">
+	$(function() {
+		//得到焦点
+		$("#password").focus(function() {
+			$("#left_hand").animate({
+				left : "150",
+				top : " -38"
+			}, {
+				step : function() {
+					if (parseInt($("#left_hand").css("left")) > 140) {
+						$("#left_hand").attr("class", "left_hand");
+					}
+				}
+			}, 2000);
+			$("#right_hand").animate({
+				right : "-64",
+				top : "-38px"
+			}, {
+				step : function() {
+					if (parseInt($("#right_hand").css("right")) > -70) {
+						$("#right_hand").attr("class", "right_hand");
+					}
+				}
+			}, 2000);
+		});
+		//失去焦点
+		$("#password").blur(function() {
+			$("#left_hand").attr("class", "initial_left_hand");
+			$("#left_hand").attr("style", "left:100px;top:-12px;");
+			$("#right_hand").attr("class", "initial_right_hand");
+			$("#right_hand").attr("style", "right:-112px;top:-12px");
+		});
+	});
+</SCRIPT>
+
+<META name="GENERATOR" content="MSHTML 11.00.9600.17496">
+</HEAD>
+<BODY>
+
+
+
+	<div id="errorTip"
+		style="display: none; float: left; width: 20%; height: 50px; margin-left: 40%; margin-right: 40%;"></div>
+	<div class="page-container">
+		<h1>Login</h1>
+		<form id="loginForm">
+			<P style="padding: 30px 0px 10px; position: relative;">
+				<INPUT id="username" name="username" class="ipt" type="text"
+					placeholder="Username" onblur=checkUserName() value="">
+			</P>
+			<P style="position: relative;">
+				</SPAN> <INPUT class="ipt" id="password" name="password" type="password"
+					placeholder="Password" value="">
+			</P>
+			<button type="button" onClick="login()">Sign me in</button>
+			<button id="toHome" type="button"
+				onclick="window.location.href='index.html'">Home</button>
+			<div id="resultDiv" class="error">
+				<span id="result" style="font-size: 30px;"></span>
+			</div>
+			<div id="pwdResultDiv" class="errorPWD">
+				<span id="pwdResult" style="font-size: 30px;"></span>
+			</div>
+		</form>
+		<div id="process"
+			style="display: none; opacity: 0.4; filter: alpha(opacity = 40); width: 300px; height: 182px; position: absolute; background-color: red; left: 39%; top: 29%; background: url(assets/img/logining.gif) no-repeat center"></div>
+	</div>
+	<DIV
+		style="height: 50px; line-height: 50px; margin-top: 30px; border-top-color: rgb(231, 231, 231); border-top-width: 1px; border-top-style: solid;">
+		<P style="margin: 0px 35px 20px 45px;">
+			<SPAN style="float: left;"><A
+				style="color: rgb(204, 204, 204);" href="#">忘记密码?</A></SPAN> <SPAN
+				style="float: right;"><A
+				style="color: rgb(204, 204, 204); margin-right: 10px;" href="#">注册</A>
+			</SPAN>
+		</P>
+	</DIV>
+	</DIV>
+	<div style="text-align: center;"></div>
+</BODY>
+</HTML>

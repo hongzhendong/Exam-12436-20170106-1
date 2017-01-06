@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="a.dao.StoreMapper" >
+  <resultMap id="BaseResultMap" type="a.pojo.Store" >
+    <id column="store_id" property="storeId" jdbcType="TINYINT" />
+    <result column="manager_staff_id" property="managerStaffId" jdbcType="TINYINT" />
+    <result column="address_id" property="addressId" jdbcType="SMALLINT" />
+    <result column="last_update" property="lastUpdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+<!--   <select id="selectAllStore" resultType="BaseResultMap">
+    select * from store;
+  </select> -->
+ 
+</mapper>
